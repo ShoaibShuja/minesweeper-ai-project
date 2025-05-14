@@ -1,0 +1,234 @@
+/* Modern, clean, responsive layout with dark/light mode */
+:root {
+    /* Light mode: soft, less bright, blue accent */
+    --bg-color: #f0f2f5;
+    --surface-color: #f8fafc;
+    --text-color: #222831;
+    --board-bg: #e6eaf1;
+    --cell-bg: #f8fafc;
+    --cell-border: #c3c7d1;
+    --accent: #1976d2;
+    --header-bg: #f8fafc;
+}
+[data-theme="dark"] {
+    /* Dark mode: super dark blue, surface blue, vibrant blue accent */
+    --bg-color: #0a192f;
+    --surface-color: #112240;
+    --text-color: #e6f1ff;
+    --board-bg: #112240;
+    --cell-bg: #0a192f;
+    --cell-border: #233554;
+    --accent: #1e90ff;
+    --header-bg: #112240;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    transition: background 0.2s, color 0.2s;
+}
+.container {
+    max-width: 480px;
+    margin: 32px auto;
+    background: var(--surface-color);
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(30, 144, 255, 0.08);
+    padding: 24px;
+    transition: background 0.2s;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+#theme-toggle {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--accent);
+}
+#game-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+#game-controls label {
+    font-weight: 500;
+    margin-right: 6px;
+}
+
+#game-controls select, #game-controls button {
+    font-family: inherit;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    margin: 0 2px;
+    background: var(--surface-color);
+    color: var(--text-color);
+    box-shadow: 0 2px 8px rgba(30,144,255,0.07);
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+    cursor: pointer;
+}
+#game-controls select:focus, #game-controls button:focus {
+    box-shadow: 0 0 0 2px var(--accent), 0 2px 8px rgba(30,144,255,0.07);
+}
+#game-controls button {
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+#game-controls button:hover, #game-controls button:focus {
+    background: #155fa0;
+}
+#game-controls select {
+    background: var(--surface-color);
+    color: var(--text-color);
+    border: 1px solid var(--cell-border);
+    padding-right: 30px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    box-shadow: 0 2px 8px rgba(30,144,255,0.04);
+}
+#game-controls select::-ms-expand {
+    display: none;
+}
+#minesweeper-board {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 8), 1fr);
+    justify-content: center;
+    align-content: center;
+    gap: 2px;
+    background: var(--board-bg);
+    border-radius: 10px;
+    margin: 0 auto 18px auto;
+    overflow: auto;
+    padding: 8px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100vw;
+}
+
+.cell {
+    aspect-ratio: 1/1;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: auto;
+    background: var(--cell-bg);
+    border: 1px solid var(--cell-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s, color 0.15s;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.cell.revealed {
+    background: var(--board-bg);
+    cursor: default;
+}
+.cell.flagged {
+    color: var(--accent);
+}
+.cell.mine {
+    background: #d32f2f;
+    color: #fff;
+}
+#scoreboard {
+    background: var(--board-bg);
+    border-radius: 14px;
+    padding: 20px 16px 14px 16px;
+    margin-top: 18px;
+    box-shadow: 0 4px 16px rgba(30,144,255,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#scoreboard h2, #scoreboard h3 {
+    margin: 0 0 10px 0;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+}
+#scoreboard h3 {
+    margin-top: 12px;
+    font-size: 1.05rem;
+    color: var(--text-color);
+}
+#current-score, #high-score {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 6px 0 2px 0;
+    color: var(--text-color);
+}
+#high-score {
+    color: var(--accent);
+}
+#last-scores {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+}
+#last-scores li {
+    padding: 2px 0;
+    font-size: 0.97rem;
+    color: var(--text-color);
+    border-bottom: 1px dashed var(--cell-border);
+    margin: 0 18px;
+}
+#last-scores li:last-child {
+    border-bottom: none;
+}
+#scoreboard h2, #scoreboard h3 {
+    margin: 0 0 8px 0;
+}
+#last-scores {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+#last-scores li {
+    padding: 2px 0;
+    font-size: 0.98rem;
+}
+@media (max-width: 600px) {
+    .container {
+        padding: 8px;
+    }
+    #minesweeper-board {
+        grid-template-columns: repeat(8, 1fr) !important;
+    }
+    .cell {
+        width: 24px;
+        min-width: 24px;
+        max-width: 24px;
+        aspect-ratio: 1/1;
+        font-size: 0.9rem;
+    }
+}
+
